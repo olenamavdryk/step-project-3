@@ -1,10 +1,8 @@
-# SSH Key
 resource "aws_key_pair" "key" {
   key_name   = "vm-key"
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
-# Security Group (Allow SSH & HTTP)
 resource "aws_security_group" "sg" {
   name_prefix = "jenkins-sg"
   description = "Allow SSH, HTTP, and Outbound Access"
@@ -14,14 +12,14 @@ resource "aws_security_group" "sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # SSH from anywhere (You may restrict this)
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # HTTP for Jenkins
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -32,7 +30,6 @@ resource "aws_security_group" "sg" {
   }
 }
 
-# Jenkins Master (Public)
 resource "aws_instance" "master" {
   ami             = "ami-03b3b5f65db7e5c6f"
   instance_type   = "t2.micro"
@@ -51,7 +48,6 @@ resource "aws_instance" "master" {
   EOF
 }
 
-# Jenkins Worker (Private)
 resource "aws_instance" "worker" {
   ami             = "ami-03b3b5f65db7e5c6f"
   instance_type   = "t2.micro"
