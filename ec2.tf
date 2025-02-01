@@ -55,6 +55,14 @@ resource "aws_instance" "worker" {
   security_groups = [aws_security_group.sg.id]
   subnet_id       = aws_subnet.private.id
 
+  instance_market_options {
+    market_type = "spot"
+    spot_options {
+      max_price = "0.0034"
+      spot_instance_type = "one-time"
+    }
+  }
+
   user_data = <<-EOF
   #!/bin/bash
   sudo apt update
