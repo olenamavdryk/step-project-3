@@ -1,6 +1,6 @@
 terraform {
   backend "s3" {
-    bucket = "step-project-3-bucket"
+    bucket = "step-project-3"
     key    = "terraform/state"
     region = "eu-central-1"
   }
